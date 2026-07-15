@@ -1,27 +1,44 @@
-# Kuesioner Filler untuk Mahasiswa (SEVIMA Platform / Darmajaya)
+# Kuesioner Filler (SEVIMA Platform / Darmajaya)
 
 ![Lazy Student](https://img.shields.io/badge/made%20for-lazy%20students-blueviolet)
 
 ## Deskripsi
 
-Kuesioner Filler ini dibuat untuk otomatisasi pengisian kuesioner mahasiswa pada platform SEVIMA (seperti siakad.darmajaya.ac.id). Dengan menggunakan script ini, Anda dapat secara otomatis mengisi semua pertanyaan kuesioner dengan nilai maksimal (opsi ke-10 atau paling kanan) dan script akan otomatis menekan tombol "Lanjutkan".
+Kuesioner Filler adalah script otomatisasi untuk mempermudah dan mempercepat pengisian kuesioner pada website kampus yang menggunakan platform **SEVIMA** (contoh: `siakad.darmajaya.ac.id`). 
 
-**Disclaimer:** Kode ini hanya untuk tujuan edukasi/hiburan dan tidak seharusnya digunakan untuk tindakan yang melanggar kebijakan institusi Anda.
+Dengan script versi terbaru ini, Anda tidak perlu lagi mengisi kuesioner satu per satu secara manual, atau bahkan mengeklik pindah halaman. Script ini akan **berjalan secara mandiri** (seperti *auto-pilot*) mengisi dari halaman pertama hingga terakhir dengan mulus.
+
+### 🌟 Fitur Utama
+1. **Otomatis Pindah Halaman:** Script ini menggunakan teknik *iframe* sehingga bisa mengisi berpuluh-puluh halaman kuesioner secara estafet hanya dengan **1 kali copy-paste**.
+2. **Kustomisasi Halaman:** Anda dapat menentukan mulai dari halaman ke-berapa dan berhenti di halaman ke-berapa (sangat berguna jika Anda terputus di tengah jalan).
+3. **Pilih Nilai Anda (1-10):** Anda bebas menentukan angka kuesionernya. Jika Anda menginput angka `10`, script akan memilih bulatan nilai tertinggi. 
+4. **Pengisian Teks Otomatis Bersentimen:** Script secara pintar akan menyesuaikan komentar saran/kritik (pada kotak *textarea*) sesuai dengan nilai yang Anda berikan:
+   - Nilai Tinggi (8-10): *"Pelayanan sangat baik dan memuaskan."*
+   - Nilai Sedang (5-7): *"Pelayanan cukup baik, namun perlu ditingkatkan."*
+   - Nilai Rendah (1-4): *"Pelayanan kurang memuaskan, mohon diperbaiki ke depannya."*
+5. **Anti-Error Internet Lambat (Sistem Polling):** Memiliki kemampuan menunggu loading halaman, sehingga script tidak akan "nge-bug" atau "terlewat" meskipun koneksi internet Anda sedang buruk.
+
+---
 
 ## Cara Menggunakan
 
-1. Buka halaman kuesioner di SIAKAD yang ingin diisi (misal: `https://siakad.darmajaya.ac.id/siakad/data_angket/...`).
-2. Lakukan "Inspect Element" atau tekan `F12` untuk membuka Developer Tools, lalu pilih tab **Console**.
-3. Salin seluruh kode dari file `fill.js`.
-4. Tempelkan kode tersebut di Console lalu tekan `Enter`.
-5. Script akan otomatis memilih opsi 10 pada semua pertanyaan dan menekan tombol Lanjutkan.
+1. Buka halaman pengisian kuesioner di SIAKAD Anda (misal: `https://siakad.darmajaya.ac.id/siakad/data_angket/...`).
+2. Klik Kanan di sembarang tempat, lalu pilih **Inspect** (atau tekan `F12` pada keyboard).
+3. Pilih tab **Console** di jendela yang baru saja terbuka.
+4. Buka file `fill.js` dari repositori ini, salin **seluruh** baris kodenya.
+5. Tempelkan (*paste*) kode tersebut ke dalam layar **Console**, lalu tekan **Enter**.
+6. Akan muncul beberapa pertanyaan *pop-up*:
+   - Masukkan **Halaman Awal** (contoh: `1`).
+   - Masukkan **Halaman Akhir** (contoh: `13`).
+   - Masukkan **Nilai Kuesioner** yang ingin diberikan (contoh: `10`).
+7. Duduk manis, saksikan keajaiban script ini mengisi halaman demi halaman untuk Anda!
 
-**Catatan:** Pastikan untuk memahami etika penggunaan dan konsekuensi dari penggunaan otomatisasi ini. 
+**Catatan:** *Disclaimer* bahwa script ini murni ditujukan sebagai bahan edukasi dan otomatisasi pribadi. Pastikan Anda membaca dan paham konsekuensi etika dari penggunaannya di institusi Anda.
 
 ## Kontribusi
 
-Jika Anda memiliki ide atau perbaikan, silakan berkontribusi dengan mengajukan *pull request*.
+Punya ide untuk membuatnya lebih pintar? Anda bebas melakukan fork dan *pull request*! 
 
 ## Lisensi
 
-Proyek ini dilisensikan di bawah [MIT License](LICENSE). Silakan gunakan dan modifikasi sesuai kebutuhan Anda.
+Proyek ini menggunakan [MIT License](LICENSE). Silakan pakai dan ubah kodenya sesuka hati Anda.
