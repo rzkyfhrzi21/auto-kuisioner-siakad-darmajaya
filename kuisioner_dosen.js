@@ -140,58 +140,58 @@
         overlay.addEventListener('click', () => { toast.remove(); overlay.remove(); });
     }
 
-    // ─── ISI FORM ─────────────────────────────────────────────────────────────
-    let filled = 0;
+    // ─── ISI FORM (auto-detect jumlah soal) ─────────────────────────────────
+    let filledRadio = 0;
+    let filledText  = 0;
 
-    // 1. Radio buttons — kelompokkan berdasarkan atribut name
-    // Hanya ambil radio yang punya name, exclude header/nav
+    // Exclude elemen di dalam header/nav/sidebar
     const isInNav = el => !!el.closest('header, nav, #header, .navbar, .sidebar');
-    const radios  = Array.from(document.querySelectorAll('input[type="radio"][name]'))
-                        .filter(r => !isInNav(r));
-    const groups  = {};
+
+    // 1. Radio buttons — auto-detect semua grup berdasarkan atribut name
+    const radios = Array.from(document.querySelectorAll('input[type="radio"][name]'))
+                       .filter(r => !isInNav(r));
+    const groups = {};
     radios.forEach(r => {
         if (!groups[r.name]) groups[r.name] = [];
         groups[r.name].push(r);
     });
 
+    const totalRadioGroups = Object.keys(groups).length;
+
     Object.values(groups).forEach(g => {
-        // Urutkan berdasarkan value ascending (Sangat Kurang → Sangat Baik)
         const sorted = [...g].sort((a, b) => parseFloat(a.value) - parseFloat(b.value));
-        // Pilih berdasarkan index — input 1 = radio ke-1, input 5 = radio ke-5
-        const idx  = Math.min(targetIndex, sorted.length - 1);
-        const pick = sorted[idx];
-        console.log(`[AutoFill] Grup "${g[0].name}" → pilih index ${idx}, value=${pick?.value}`);
+        const idx    = Math.min(targetIndex, sorted.length - 1);
+        const pick   = sorted[idx];
         if (pick && !pick.checked) {
             pick.checked = true;
             pick.click();
             pick.dispatchEvent(new Event('change', { bubbles: true }));
             pick.dispatchEvent(new Event('input',  { bubbles: true }));
-            filled++;
+            filledRadio++;
         }
     });
 
-    // 2. Textarea (Kritik & Saran)
-    document.querySelectorAll('textarea').forEach(ta => {
-        if (!ta.value.trim()) {
-            const comments = {
-                5: 'Pengajaran sangat baik dan memuaskan. Semoga terus dipertahankan.',
-                4: 'Pengajaran sudah baik. Beberapa aspek masih bisa ditingkatkan.',
-                3: 'Pengajaran cukup baik, namun masih perlu perbaikan di beberapa bagian.',
-                2: 'Pengajaran kurang memuaskan, mohon diperbaiki.',
-                1: 'Pengajaran sangat kurang, perlu perhatian serius.'
-            };
-            ta.value = comments[targetScore] || comments[3];
-            ta.dispatchEvent(new Event('input',  { bubbles: true }));
-            ta.dispatchEvent(new Event('change', { bubbles: true }));
-            filled++;
+    // 2. Textarea & text input — auto-detect semua yang ada di form
+    const textElements = Array.from(document.querySelectorAll('textarea, input[type="text"]'))
+                              .filter(el => !isInNav(el));
+
+    textElements.forEach(el => {
+        if (!el.value.trim()) {
+            el.value = 'Pengajaran sangat baik dan memuaskan. Semoga terus dipertahankan.';
+            el.dispatchEvent(new Event('input',  { bubbles: true }));
+            el.dispatchEvent(new Event('change', { bubbles: true }));
+            filledText++;
         }
     });
+
+    const totalFilled = filledRadio + filledText;
 
     // ─── UPDATE STATUS BOX & TAMPILKAN TOAST ─────────────────────────────────
     box.style.background = 'rgba(22,101,52,0.95)';
     box.innerHTML = [
         `<b>🎉 Selesai!</b>`,
-        `${filled} item terisi · Nilai: ${scoreLabel}`,
+        `Terdeteksi: ${totalRadioGroups} soal radio + ${textElements.length} teks`,
+        `Terisi: ${totalFilled} item · Nilai: ${scoreLabel}`,
         `<span style="font-size:11px;opacity:0.7">@rzkydev666 · @pandxy.ocs · @hmd.alnk</span>`
     ].join('<br>');
 
